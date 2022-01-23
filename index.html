@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameLoTo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-contain">
+    </div>
+    <div class="body-contain">
+        <div class="left-contain">
+            <h2>Game Lô Tô</h2>
+            <h3>Bốc số</h3>
+            <div class="random-number">
+                ?
+            </div>
+            <button id="start">Bắt đầu</button>
+            <button id="stop">Dừng</button>
+        </div>
+        <div class="right-content">
+            <h2>Dãy số Lô Tô</h2>
+            <div class="lucky-number">
+               
+            </div>
+        </div>
+    </div>
+  
+    <script>
+        const batdau = document.querySelector('#start')
+        const dung = document.querySelector('#stop')
+        const randomNumber =  document.querySelector('.random-number')
+        const showResultAll = document.querySelector('.lucky-number')
+        var timeZ;
+        let  number = 1
+
+        /*Xu li khi nhan bat dau va dung*/
+        batdau.onclick = ()=>{
+            timeZ = setInterval(()=>{
+                if(number == 90)
+                    number=1
+                number++;
+                randomNumber.innerText = number;
+            },1)
+        }
+
+        dung.onclick = ()=>{
+            clearInterval(timeZ)
+            checkNumber(parseInt(randomNumber.innerText))
+        }
+
+
+        var arrayNumber = []
+        /*Xu li chon so dua vao mang khi nhan dung*/
+        function checkNumber(luckyNumber){
+            let numberCheck = 0;
+            arrayNumber.forEach((item,index)=>{
+                if(item !== luckyNumber){
+                    numberCheck++;
+                }
+            })
+
+            if(numberCheck===arrayNumber.length)
+                arrayNumber.push(luckyNumber)
+
+            showResult(arrayNumber)
+
+        }
+
+
+        /*Xử lí show ra màn hình*/
+        function showResult(arrayNumber){
+           let htmls =  arrayNumber.map((item, index)=>{
+               return ` <ul>
+                    <li>
+                        <div class="lucky">${item}</div>
+                    </li>
+                </ul>`
+            })
+
+            showResultAll.innerHTML = htmls.join(' ')
+            document.querySelector('ul:last-child li').style.border = '5px solid yellowgreen'
+        }
+    </script>
+</body>
+</html>
